@@ -1,26 +1,70 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --surface: #f5f1e8;
+  --surface-strong: #efe8db;
+  --text-primary: #26231f;
+  --text-secondary: #5c5448;
+  --text-muted: #7a6f60;
+  --line: rgb(182 170 149 / 0.3);
+  --accent-clay: #a0603a;
+  --accent-olive: #7a7a58;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-background: var(--surface);
+  --color-foreground: var(--text-primary);
+  --font-sans: var(--font-inter);
+  --font-serif: var(--font-fraunces);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html[data-sun-phase="evening"] {
+  --surface: #ece4d7;
+  --surface-strong: #e1d8c8;
+  --text-primary: #2d2924;
+  --text-secondary: #655c50;
+  --text-muted: #867967;
+}
+
+html[data-sun-phase="night"] {
+  --surface: #e6decf;
+  --surface-strong: #ddd3c2;
+  --text-primary: #292521;
+  --text-secondary: #5d5549;
+  --text-muted: #7a7061;
+}
+
+* {
+  border-color: var(--line);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  min-height: 100vh;
+  background-color: var(--surface);
+  background-image:
+    radial-gradient(rgb(255 255 255 / 0.18) 0.7px, transparent 0.7px),
+    radial-gradient(rgb(0 0 0 / 0.03) 0.6px, transparent 0.6px);
+  background-position:
+    0 0,
+    10px 10px;
+  background-size:
+    22px 22px,
+    28px 28px;
+  color: var(--text-primary);
+  font-family: var(--font-inter), sans-serif;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  display: block;
+}
+
+.page-wrap {
+  padding-top: 72px;
+}
+
+@media (max-width: 768px) {
+  .page-wrap {
+    padding-top: 64px;
+  }
 }
