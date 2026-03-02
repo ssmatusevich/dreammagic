@@ -9,6 +9,8 @@
   --line: rgb(182 170 149 / 0.3);
   --accent-clay: #a0603a;
   --accent-olive: #7a7a58;
+  --focus-ring: rgb(160 96 58 / 0.45);
+  --transition-theme: 600ms;
 }
 
 @theme inline {
@@ -24,6 +26,7 @@ html[data-sun-phase="evening"] {
   --text-primary: #2d2924;
   --text-secondary: #655c50;
   --text-muted: #867967;
+  --line: rgb(170 158 138 / 0.32);
 }
 
 html[data-sun-phase="night"] {
@@ -32,6 +35,13 @@ html[data-sun-phase="night"] {
   --text-primary: #292521;
   --text-secondary: #5d5549;
   --text-muted: #7a7061;
+  --line: rgb(160 148 128 / 0.34);
+}
+
+html {
+  transition:
+    background-color var(--transition-theme) ease,
+    color var(--transition-theme) ease;
 }
 
 * {
@@ -53,6 +63,8 @@ body {
   color: var(--text-primary);
   font-family: var(--font-inter), sans-serif;
   text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  transition: background-color var(--transition-theme) ease;
 }
 
 main {
@@ -67,4 +79,49 @@ main {
   .page-wrap {
     padding-top: 64px;
   }
+}
+
+/* Focus-visible rings (a11y + warm aesthetic) */
+:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+  border-radius: 4px;
+}
+
+button:focus-visible,
+a:focus-visible {
+  outline: 2px solid var(--focus-ring);
+  outline-offset: 2px;
+}
+
+input:focus-visible,
+textarea:focus-visible {
+  outline: none;
+  border-color: var(--accent-clay);
+  box-shadow: 0 0 0 2px var(--focus-ring);
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Smooth scroll */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Selection */
+::selection {
+  background-color: rgb(160 96 58 / 0.18);
+  color: var(--text-primary);
 }

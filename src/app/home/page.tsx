@@ -1,6 +1,8 @@
 import Image from "next/image";
 import Link from "next/link";
 
+import { FadeIn } from "@/components/motion/fade-in";
+import { StaggerChildren } from "@/components/motion/stagger-children";
 import { ArtworkCard } from "@/components/works/artwork-card";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { artworks, exhibitions, journalPosts, siteMeta } from "@/data/content";
@@ -20,6 +22,7 @@ export default function HomePage() {
 
   return (
     <div>
+      {/* Hero */}
       <section className="relative isolate min-h-[88vh] overflow-hidden border-b border-[color:var(--line)]">
         <Image
           src={artworks[9].imageUrl}
@@ -29,51 +32,60 @@ export default function HomePage() {
           sizes="100vw"
           className="object-cover opacity-45"
         />
-        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.18)_0%,rgba(0,0,0,0.55)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(0,0,0,0.12)_0%,rgba(0,0,0,0.58)_100%)]" />
         <div className="relative z-10 mx-auto flex min-h-[88vh] w-full max-w-[1320px] flex-col justify-end px-4 pb-12 pt-28 md:px-8 md:pb-16 xl:px-[60px]">
-          <p className="max-w-3xl font-serif text-4xl leading-tight text-[color:var(--surface)] md:text-6xl">
-            {siteMeta.manifesto}
-          </p>
-          <div className="mt-8 max-w-xl">
-            <div className="mb-2 flex items-center justify-between text-[11px] tracking-[0.12em] text-[color:var(--surface)]/90">
-              <span>MORNING</span>
-              <span>DAY</span>
-              <span>EVENING</span>
+          <FadeIn delay={0.15} duration={0.7}>
+            <p className="max-w-3xl font-serif text-4xl leading-tight text-[color:var(--surface)] md:text-6xl">
+              {siteMeta.manifesto}
+            </p>
+          </FadeIn>
+
+          <FadeIn delay={0.35} duration={0.6}>
+            <div className="mt-8 max-w-xl">
+              <div className="mb-2 flex items-center justify-between text-[11px] tracking-[0.12em] text-[color:var(--surface)]/80">
+                <span>MORNING</span>
+                <span>DAY</span>
+                <span>EVENING</span>
+              </div>
+              <div className="h-[2px] w-full rounded-full bg-[color:var(--surface)]/20">
+                <div
+                  className="h-full rounded-full bg-[color:var(--surface)] transition-all duration-1000 ease-out"
+                  style={{
+                    width:
+                      phase === "morning"
+                        ? "20%"
+                        : phase === "day"
+                          ? "55%"
+                          : phase === "evening"
+                            ? "85%"
+                            : "100%",
+                  }}
+                />
+              </div>
             </div>
-            <div className="h-[2px] w-full bg-[color:var(--surface)]/30">
-              <div
-                className="h-full bg-[color:var(--surface)] transition-all duration-700"
-                style={{
-                  width:
-                    phase === "morning"
-                      ? "20%"
-                      : phase === "day"
-                        ? "55%"
-                        : phase === "evening"
-                          ? "85%"
-                          : "100%",
-                }}
-              />
+          </FadeIn>
+
+          <FadeIn delay={0.5} duration={0.5}>
+            <div className="mt-8 flex flex-wrap gap-3">
+              <Link
+                href="/works"
+                className="rounded-full border border-[color:var(--surface)]/40 px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--surface)] transition-all duration-300 hover:border-[color:var(--surface)]/70 hover:bg-[color:var(--surface)]/10"
+              >
+                VIEW WORKS
+              </Link>
+              <Link
+                href="/exhibitions"
+                className="rounded-full border border-[color:var(--surface)]/40 px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--surface)] transition-all duration-300 hover:border-[color:var(--surface)]/70 hover:bg-[color:var(--surface)]/10"
+              >
+                CURRENT EXHIBITION
+              </Link>
             </div>
-          </div>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link
-              href="/works"
-              className="rounded-full border border-[color:var(--surface)]/50 px-5 py-2 text-xs tracking-[0.12em] text-[color:var(--surface)] transition hover:bg-[color:var(--surface)]/10"
-            >
-              VIEW WORKS
-            </Link>
-            <Link
-              href="/exhibitions"
-              className="rounded-full border border-[color:var(--surface)]/50 px-5 py-2 text-xs tracking-[0.12em] text-[color:var(--surface)] transition hover:bg-[color:var(--surface)]/10"
-            >
-              CURRENT EXHIBITION
-            </Link>
-          </div>
+          </FadeIn>
         </div>
       </section>
 
-      <section className="mx-auto w-full max-w-[1320px] px-4 py-12 md:px-8 md:py-16 xl:px-[60px]">
+      {/* Current Exhibition */}
+      <FadeIn as="section" className="mx-auto w-full max-w-[1320px] px-4 py-12 md:px-8 md:py-16 xl:px-[60px]">
         <SectionHeading
           overline="CURRENT EXHIBITION"
           title={currentExhibition.title}
@@ -90,7 +102,7 @@ export default function HomePage() {
               width={1400}
               height={900}
               sizes="(max-width: 767px) 100vw, 66vw"
-              className="h-full w-full object-cover transition group-hover:opacity-90"
+              className="h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.01] group-hover:brightness-[0.94]"
             />
           </Link>
           <div className="space-y-4 md:col-span-4">
@@ -106,33 +118,35 @@ export default function HomePage() {
                   width={800}
                   height={560}
                   sizes="(max-width: 767px) 100vw, 33vw"
-                  className="h-full w-full object-cover transition group-hover:opacity-90"
+                  className="h-full w-full object-cover transition-all duration-700 group-hover:scale-[1.01] group-hover:brightness-[0.94]"
                 />
               </Link>
             ))}
           </div>
         </div>
-      </section>
+      </FadeIn>
 
-      <section className="mx-auto w-full max-w-[1320px] border-t border-[color:var(--line)] px-4 py-12 md:px-8 md:py-16 xl:px-[60px]">
+      {/* Selected Works */}
+      <FadeIn as="section" className="mx-auto w-full max-w-[1320px] border-t border-[color:var(--line)] px-4 py-12 md:px-8 md:py-16 xl:px-[60px]">
         <SectionHeading overline="SELECTED WORKS" title="Curated Selection" />
-        <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <StaggerChildren className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
           {selectedWorks.map((item, index) => (
             <ArtworkCard key={item.slug} artwork={item} priority={index < 3} />
           ))}
-        </div>
+        </StaggerChildren>
         <div className="mt-8">
           <Link
             href="/works"
-            className="rounded-full border border-[color:var(--line)] px-5 py-2 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition hover:bg-[color:var(--surface-strong)]"
+            className="rounded-full border border-[color:var(--line)] px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)]"
           >
             VIEW ALL WORKS
           </Link>
         </div>
-      </section>
+      </FadeIn>
 
+      {/* Artist + Rituals */}
       <section className="mx-auto grid w-full max-w-[1320px] grid-cols-1 gap-8 border-t border-[color:var(--line)] px-4 py-12 md:grid-cols-2 md:px-8 md:py-16 xl:px-[60px]">
-        <div>
+        <FadeIn>
           <SectionHeading
             overline="ARTIST"
             title="Katerina Matusevich"
@@ -140,52 +154,58 @@ export default function HomePage() {
           />
           <Link
             href="/artist"
-            className="rounded-full border border-[color:var(--line)] px-5 py-2 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition hover:bg-[color:var(--surface-strong)]"
+            className="rounded-full border border-[color:var(--line)] px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)]"
           >
             READ STATEMENT
           </Link>
-        </div>
+        </FadeIn>
 
-        <div className="rounded-[28px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-6">
-          <p className="mb-4 text-xs tracking-[0.12em] text-[color:var(--text-muted)]">
-            RITUALS / EVENINGS
-          </p>
-          <ul className="space-y-3 text-sm text-[color:var(--text-secondary)]">
-            <li className="border-b border-[color:var(--line)] pb-3">
-              <strong className="block text-[color:var(--text-primary)]">Color Meditation Session</strong>
-              <span>12 Mar 2026 · 19:00</span>
-            </li>
-            <li className="border-b border-[color:var(--line)] pb-3">
-              <strong className="block text-[color:var(--text-primary)]">Artist Talk: Memory Geometry</strong>
-              <span>20 Mar 2026 · 18:30</span>
-            </li>
-            <li>
-              <strong className="block text-[color:var(--text-primary)]">Private Viewing Evening</strong>
-              <span>28 Mar 2026 · by reservation</span>
-            </li>
-          </ul>
-        </div>
+        <FadeIn delay={0.1}>
+          <div className="rounded-[28px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-6">
+            <p className="mb-4 text-xs tracking-[0.12em] text-[color:var(--text-muted)]">
+              RITUALS / EVENINGS
+            </p>
+            <ul className="space-y-3 text-sm text-[color:var(--text-secondary)]">
+              <li className="border-b border-[color:var(--line)] pb-3">
+                <strong className="block text-[color:var(--text-primary)]">Color Meditation Session</strong>
+                <span>12 Mar 2026 · 19:00</span>
+              </li>
+              <li className="border-b border-[color:var(--line)] pb-3">
+                <strong className="block text-[color:var(--text-primary)]">Artist Talk: Memory Geometry</strong>
+                <span>20 Mar 2026 · 18:30</span>
+              </li>
+              <li>
+                <strong className="block text-[color:var(--text-primary)]">Private Viewing Evening</strong>
+                <span>28 Mar 2026 · by reservation</span>
+              </li>
+            </ul>
+          </div>
+        </FadeIn>
       </section>
 
+      {/* Visit + Journal */}
       <section className="mx-auto grid w-full max-w-[1320px] grid-cols-1 gap-8 border-t border-[color:var(--line)] px-4 py-12 md:grid-cols-2 md:px-8 md:py-16 xl:px-[60px]">
-        <div className="rounded-[28px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-6">
-          <p className="mb-2 text-xs tracking-[0.12em] text-[color:var(--text-muted)]">VISIT</p>
-          <h3 className="font-serif text-3xl text-[color:var(--text-primary)]">Book a viewing</h3>
-          <p className="mt-2 text-sm text-[color:var(--text-secondary)]">
-            Tue-Sat · 11:00-19:00 · by appointment
-          </p>
-          <Link
-            href="/visit"
-            className="mt-4 inline-block rounded-full border border-[color:var(--line)] px-5 py-2 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition hover:bg-[color:var(--surface)]"
-          >
-            GO TO VISIT
-          </Link>
-        </div>
-        <div>
+        <FadeIn>
+          <div className="rounded-[28px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-6">
+            <p className="mb-2 text-xs tracking-[0.12em] text-[color:var(--text-muted)]">VISIT</p>
+            <h3 className="font-serif text-3xl text-[color:var(--text-primary)]">Book a viewing</h3>
+            <p className="mt-2 text-sm text-[color:var(--text-secondary)]">
+              Tue-Sat · 11:00-19:00 · by appointment
+            </p>
+            <Link
+              href="/visit"
+              className="mt-4 inline-block rounded-full border border-[color:var(--line)] px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)]"
+            >
+              GO TO VISIT
+            </Link>
+          </div>
+        </FadeIn>
+
+        <FadeIn delay={0.1}>
           <SectionHeading overline="JOURNAL" title="Latest Notes" />
           <ul className="space-y-4">
             {journalPosts.map((post) => (
-              <li key={post.slug} className="border-b border-[color:var(--line)] pb-4">
+              <li key={post.slug} className="border-b border-[color:var(--line)] pb-4 transition-colors duration-200 hover:border-[color:var(--accent-clay)]/30">
                 <p className="text-xs tracking-[0.12em] text-[color:var(--text-muted)]">
                   {post.category} · {post.date}
                 </p>
@@ -194,7 +214,7 @@ export default function HomePage() {
               </li>
             ))}
           </ul>
-        </div>
+        </FadeIn>
       </section>
     </div>
   );

@@ -2,6 +2,8 @@ import Image from "next/image";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { FadeIn } from "@/components/motion/fade-in";
+import { StaggerChildren } from "@/components/motion/stagger-children";
 import { InquiryPanel } from "@/components/forms/inquiry-panel";
 import { ArtworkCard } from "@/components/works/artwork-card";
 import { artworks, getArtworkBySlug, relatedArtworks, siteMeta } from "@/data/content";
@@ -20,9 +22,7 @@ export async function generateMetadata({ params }: ArtworkPageProps): Promise<Me
   const artwork = getArtworkBySlug(slug);
 
   if (!artwork) {
-    return buildMetadata({
-      title: "Work not found",
-    });
+    return buildMetadata({ title: "Work not found" });
   }
 
   return buildMetadata({
@@ -45,10 +45,7 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
     "@context": "https://schema.org",
     "@type": "VisualArtwork",
     name: artwork.titleRu,
-    creator: {
-      "@type": "Person",
-      name: siteMeta.author,
-    },
+    creator: { "@type": "Person", name: siteMeta.author },
     artMedium: artwork.material,
     dateCreated: artwork.year,
     description: artwork.description,
@@ -60,7 +57,7 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
       <script type="application/ld+json" dangerouslySetInnerHTML={{ __html: JSON.stringify(schema) }} />
 
       <div className="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:gap-10">
-        <section className="lg:col-span-7">
+        <FadeIn as="section" className="lg:col-span-7">
           <div className="overflow-hidden rounded-[28px] border border-[color:var(--line)]">
             <Image
               src={artwork.imageUrl}
@@ -76,26 +73,32 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
           {artwork.images.length > 1 ? (
             <div className="mt-4 grid grid-cols-2 gap-3">
               {artwork.images.map((image, index) => (
-                <div key={`${image}-${index}`} className="overflow-hidden rounded-[20px] border border-[color:var(--line)]">
-                  <Image
-                    src={image}
-                    alt={`${artwork.titleRu} detail ${index + 1}`}
-                    width={900}
-                    height={700}
-                    sizes="(max-width: 1023px) 50vw, 25vw"
-                    className="h-full w-full object-cover"
-                  />
-                </div>
+                <FadeIn key={`${image}-${index}`} delay={index * 0.06}>
+                  <div className="overflow-hidden rounded-[20px] border border-[color:var(--line)]">
+                    <Image
+                      src={image}
+                      alt={`${artwork.titleRu} detail ${index + 1}`}
+                      width={900}
+                      height={700}
+                      sizes="(max-width: 1023px) 50vw, 25vw"
+                      className="h-full w-full object-cover transition-all duration-500 hover:brightness-[0.96]"
+                    />
+                  </div>
+                </FadeIn>
               ))}
             </div>
           ) : null}
-        </section>
+        </FadeIn>
 
-        <aside className="lg:col-span-5">
+        <FadeIn as="aside" delay={0.1} className="lg:col-span-5">
           <p className="text-xs tracking-[0.14em] text-[color:var(--text-muted)]">WORK DETAIL</p>
-          <h1 className="mt-2 font-serif text-5xl text-[color:var(--text-primary)]">{artwork.titleRu}</h1>
+          <h1 className="mt-2 font-serif text-5xl leading-tight text-[color:var(--text-primary)]">
+            {artwork.titleRu}
+          </h1>
           <p className="mt-2 text-base text-[color:var(--text-secondary)]">{artwork.titleEn}</p>
-          <p className="mt-4 text-[15px] leading-7 text-[color:var(--text-secondary)]">{artwork.description}</p>
+          <p className="mt-4 text-[15px] leading-7 text-[color:var(--text-secondary)]">
+            {artwork.description}
+          </p>
 
           <dl className="mt-6 grid gap-3 rounded-[24px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-5 text-sm">
             <MetaRow label="Year" value={artwork.year} />
@@ -108,17 +111,17 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
           <div className="mt-6">
             <InquiryPanel artworkSlug={artwork.slug} artworkTitle={artwork.titleRu} />
           </div>
-        </aside>
+        </FadeIn>
       </div>
 
-      <section className="mt-12 border-t border-[color:var(--line)] pt-10">
+      <FadeIn as="section" className="mt-12 border-t border-[color:var(--line)] pt-10">
         <h2 className="font-serif text-4xl text-[color:var(--text-primary)]">In the same room</h2>
-        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <StaggerChildren className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
           {related.map((item) => (
             <ArtworkCard key={item.slug} artwork={item} />
           ))}
-        </div>
-      </section>
+        </StaggerChildren>
+      </FadeIn>
     </div>
   );
 }
