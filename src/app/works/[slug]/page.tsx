@@ -90,7 +90,7 @@ export default async function ArtworkPage({ params }: ArtworkPageProps) {
           ) : null}
         </FadeIn>
 
-        <FadeIn as="aside" delay={0.1} className="lg:col-span-5">
+        <FadeIn delay={0.1} className="lg:col-span-5">
           <p className="text-xs tracking-[0.14em] text-[color:var(--text-muted)]">WORK DETAIL</p>
           <h1 className="mt-2 font-serif text-5xl leading-tight text-[color:var(--text-primary)]">
             {artwork.titleRu}

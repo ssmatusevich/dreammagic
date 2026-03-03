@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { SectionHeading } from "@/components/ui/section-heading";
 import { journalPosts } from "@/data/content";
 import { buildMetadata } from "@/lib/utils";
@@ -30,12 +28,12 @@ export default function JournalPage() {
             <h2 className="mt-2 font-serif text-3xl text-[color:var(--text-primary)]">{post.title}</h2>
             <p className="mt-2 text-sm text-[color:var(--text-secondary)]">{post.excerpt}</p>
             <p className="mt-3 text-xs tracking-[0.1em] text-[color:var(--text-muted)]">{post.readTime}</p>
-            <Link
-              href="#"
-              className="mt-5 inline-block rounded-full border border-[color:var(--line)] px-4 py-2 text-xs tracking-[0.12em] text-[color:var(--text-primary)]"
+            <span
+              className="mt-5 inline-block cursor-default rounded-full border border-[color:var(--line)] px-4 py-2 text-xs tracking-[0.12em] text-[color:var(--text-muted)]"
+              aria-label="Full article coming soon"
             >
-              READ
-            </Link>
+              COMING SOON
+            </span>
           </article>
         ))}
       </div>

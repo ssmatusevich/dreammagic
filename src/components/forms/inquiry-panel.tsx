@@ -4,15 +4,15 @@ import { FormEvent, useState } from "react";
 
 import { SlideOverlay } from "@/components/motion/slide-overlay";
 import { cn } from "@/lib/utils";
+import { Field } from "./field";
 
 type InquiryKind = "inquire" | "request_viewing";
+type Status = "idle" | "loading" | "success" | "error";
 
 type InquiryPanelProps = {
   artworkSlug: string;
   artworkTitle: string;
 };
-
-type Status = "idle" | "loading" | "success" | "error";
 
 export function InquiryPanel({ artworkSlug, artworkTitle }: InquiryPanelProps) {
   const [kind, setKind] = useState<InquiryKind>("inquire");
@@ -33,26 +33,25 @@ export function InquiryPanel({ artworkSlug, artworkTitle }: InquiryPanelProps) {
     setError("");
 
     const form = event.currentTarget;
-    const formData = new FormData(form);
-    const payload = Object.fromEntries(formData.entries());
+    const payload = Object.fromEntries(new FormData(form).entries());
 
     try {
-      const response = await fetch("/api/inquiry", {
+      const res = await fetch("/api/inquiry", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ ...payload, artworkSlug, type: kind }),
       });
 
-      if (!response.ok) {
-        const body = await response.json().catch(() => ({ error: "Request failed" }));
+      if (!res.ok) {
+        const body = await res.json().catch(() => ({ error: "Request failed" }));
         throw new Error(body.error || "Request failed");
       }
 
       setStatus("success");
       form.reset();
-    } catch (submitError) {
+    } catch (err) {
       setStatus("error");
-      setError(submitError instanceof Error ? submitError.message : "Unknown error");
+      setError(err instanceof Error ? err.message : "Unknown error");
     }
   };
 
@@ -96,18 +95,12 @@ export function InquiryPanel({ artworkSlug, artworkTitle }: InquiryPanelProps) {
             <Field label="Name" name="name" required />
             <Field label="Email" name="email" type="email" required />
             <Field label="Message" name="message" as="textarea" required />
-            <input
-              name="honeypot"
-              autoComplete="off"
-              tabIndex={-1}
-              className="hidden"
-              aria-hidden="true"
-            />
+            <input name="honeypot" autoComplete="off" tabIndex={-1} className="hidden" aria-hidden="true" />
 
             <button
               type="submit"
               disabled={status === "loading"}
-              className="mt-2 rounded-full border border-[color:var(--line)] px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)] disabled:opacity-60 disabled:hover:bg-transparent disabled:hover:text-[color:var(--text-primary)]"
+              className="mt-2 rounded-full border border-[color:var(--line)] px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)] disabled:opacity-60"
             >
               {status === "loading" ? "SENDING..." : "SEND REQUEST"}
             </button>
@@ -130,33 +123,5 @@ export function InquiryPanel({ artworkSlug, artworkTitle }: InquiryPanelProps) {
         </div>
       </SlideOverlay>
     </>
-  );
-}
-
-function Field({
-  label,
-  name,
-  type = "text",
-  as,
-  required = false,
-}: {
-  label: string;
-  name: string;
-  type?: string;
-  as?: "textarea";
-  required?: boolean;
-}) {
-  const shared =
-    "w-full rounded-2xl border border-[color:var(--line)] bg-transparent px-4 py-3 text-sm text-[color:var(--text-primary)] outline-none transition-all duration-200 placeholder:text-[color:var(--text-muted)]";
-
-  return (
-    <label className="grid gap-1">
-      <span className="text-xs tracking-[0.08em] text-[color:var(--text-muted)]">{label}</span>
-      {as === "textarea" ? (
-        <textarea name={name} rows={4} required={required} className={shared} placeholder={label} />
-      ) : (
-        <input name={name} type={type} required={required} className={shared} placeholder={label} />
-      )}
-    </label>
   );
 }

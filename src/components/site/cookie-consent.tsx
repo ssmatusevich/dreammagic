@@ -1,24 +1,38 @@
 "use client";
 
-import { useState } from "react";
+import { useSyncExternalStore } from "react";
 import { AnimatePresence, motion } from "framer-motion";
 
+function getCookie(name: string): string | null {
+  if (typeof document === "undefined") return null;
+  const match = document.cookie.match(new RegExp(`(?:^|; )${name}=([^;]*)`));
+  return match ? decodeURIComponent(match[1]) : null;
+}
+
+function subscribe(cb: () => void) {
+  window.addEventListener("storage", cb);
+  return () => window.removeEventListener("storage", cb);
+}
+
+function getSnapshot(): boolean {
+  return !getCookie("dreamagic_cookie_consent");
+}
+
+function getServerSnapshot(): boolean {
+  return false;
+}
+
 export function CookieConsentBanner() {
-  const [visible, setVisible] = useState(true);
+  const shouldShow = useSyncExternalStore(subscribe, getSnapshot, getServerSnapshot);
 
-  const accept = () => {
-    document.cookie = "dreamagic_cookie_consent=accepted; path=/; max-age=31536000";
-    setVisible(false);
-  };
-
-  const decline = () => {
-    document.cookie = "dreamagic_cookie_consent=declined; path=/; max-age=31536000";
-    setVisible(false);
+  const respond = (value: "accepted" | "declined") => {
+    document.cookie = `dreamagic_cookie_consent=${value}; path=/; max-age=31536000`;
+    window.dispatchEvent(new Event("storage"));
   };
 
   return (
     <AnimatePresence>
-      {visible ? (
+      {shouldShow ? (
         <motion.div
           key="cookie-banner"
           initial={{ opacity: 0, y: 16 }}
@@ -33,14 +47,14 @@ export function CookieConsentBanner() {
           <div className="mt-3 flex gap-2">
             <button
               type="button"
-              onClick={accept}
+              onClick={() => respond("accepted")}
               className="rounded-full border border-[color:var(--line)] px-3 py-1.5 text-xs tracking-[0.1em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)]"
             >
               ACCEPT
             </button>
             <button
               type="button"
-              onClick={decline}
+              onClick={() => respond("declined")}
               className="rounded-full border border-[color:var(--line)] px-3 py-1.5 text-xs tracking-[0.1em] text-[color:var(--text-secondary)] transition-colors duration-300 hover:text-[color:var(--text-primary)]"
             >
               DECLINE

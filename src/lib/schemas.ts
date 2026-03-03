@@ -29,6 +29,3 @@ export const visitSchema = z.object({
   honeypot,
 });
 
-export type InquiryPayload = z.infer<typeof inquirySchema>;
-export type ContactPayload = z.infer<typeof contactSchema>;
-export type VisitPayload = z.infer<typeof visitSchema>;

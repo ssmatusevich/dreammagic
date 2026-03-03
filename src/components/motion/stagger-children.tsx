@@ -1,7 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { motion, type Variants } from "framer-motion";
 import type { ReactNode } from "react";
+
+const containerVariants: Variants = {
+  hidden: {},
+  visible: {},
+};
 
 type StaggerChildrenProps = {
   children: ReactNode;
@@ -16,6 +21,7 @@ export function StaggerChildren({
 }: StaggerChildrenProps) {
   return (
     <motion.div
+      variants={containerVariants}
       initial="hidden"
       whileInView="visible"
       viewport={{ once: true, margin: "-40px" }}

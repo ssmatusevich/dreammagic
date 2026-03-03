@@ -10,18 +10,10 @@ const variants: Variants = {
 
 const MotionDiv = motion.div;
 const MotionSection = motion.section;
-const MotionArticle = motion.article;
-const MotionAside = motion.aside;
-const MotionHeader = motion.header;
-const MotionLi = motion.li;
 
 const motionComponents = {
   div: MotionDiv,
   section: MotionSection,
-  article: MotionArticle,
-  aside: MotionAside,
-  header: MotionHeader,
-  li: MotionLi,
 } as const;
 
 type FadeInProps = {

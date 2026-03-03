@@ -1,5 +1,3 @@
-import Link from "next/link";
-
 import { LeadForm } from "@/components/forms/lead-form";
 import { SectionHeading } from "@/components/ui/section-heading";
 import { buildMetadata } from "@/lib/utils";
@@ -29,12 +27,12 @@ export default function ContactsPage() {
           <div className="rounded-[24px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-5">
             <p className="text-xs tracking-[0.12em] text-[color:var(--text-muted)]">SOCIAL</p>
             <div className="mt-2 flex flex-wrap gap-2">
-              <Link href="#" className="rounded-full border border-[color:var(--line)] px-3 py-1 text-xs">
+              <span className="cursor-default rounded-full border border-[color:var(--line)] px-3 py-1 text-xs text-[color:var(--text-muted)]" aria-label="Instagram (coming soon)">
                 INSTAGRAM
-              </Link>
-              <Link href="#" className="rounded-full border border-[color:var(--line)] px-3 py-1 text-xs">
+              </span>
+              <span className="cursor-default rounded-full border border-[color:var(--line)] px-3 py-1 text-xs text-[color:var(--text-muted)]" aria-label="Telegram (coming soon)">
                 TELEGRAM
-              </Link>
+              </span>
             </div>
           </div>
         </section>
