@@ -128,7 +128,7 @@ export function WorksPageClient() {
       <button
         type="button"
         onClick={resetFilters}
-        className="rounded-full border border-[color:var(--line)] px-4 py-2 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition hover:bg-[color:var(--surface-strong)]"
+        className="text-xs tracking-[0.12em] text-[color:var(--text-muted)] underline decoration-[color:var(--line)] underline-offset-4 transition-colors hover:text-[color:var(--text-primary)] hover:decoration-[color:var(--accent-clay)]"
       >
         RESET FILTERS
       </button>
@@ -152,7 +152,7 @@ export function WorksPageClient() {
         <aside className="hidden lg:col-span-3 lg:block">{filterContent}</aside>
         <section className="lg:col-span-9">
           {filtered.length === 0 ? (
-            <div className="rounded-[24px] border border-[color:var(--line)] p-8 text-center">
+            <div className="border-t border-[color:var(--line)] pt-8">
               <p className="font-serif text-2xl text-[color:var(--text-primary)]">No works found</p>
               <p className="mt-2 text-sm text-[color:var(--text-secondary)]">
                 Попробуйте изменить фильтры или вернуться к полному каталогу.
@@ -160,7 +160,7 @@ export function WorksPageClient() {
               <button
                 type="button"
                 onClick={resetFilters}
-                className="mt-5 rounded-full border border-[color:var(--line)] px-4 py-2 text-xs tracking-[0.12em] text-[color:var(--text-primary)]"
+                className="mt-5 text-xs tracking-[0.12em] text-[color:var(--text-muted)] underline decoration-[color:var(--line)] underline-offset-4 hover:text-[color:var(--text-primary)]"
               >
                 RESET FILTERS
               </button>
@@ -183,7 +183,7 @@ export function WorksPageClient() {
       >
         <div
           className={cn(
-            "mt-auto max-h-[88vh] overflow-auto rounded-3xl border border-[color:var(--line)] bg-[color:var(--surface)] p-5 transition-transform duration-200",
+            "mt-auto max-h-[88vh] overflow-auto border-t border-[color:var(--line)] bg-[color:var(--surface)] p-5 transition-transform duration-200",
             mobileFiltersOpen ? "translate-y-0" : "translate-y-8",
           )}
         >
@@ -201,7 +201,7 @@ export function WorksPageClient() {
           <button
             type="button"
             onClick={() => setMobileFiltersOpen(false)}
-            className="mt-6 w-full rounded-full border border-[color:var(--line)] px-4 py-3 text-xs tracking-[0.12em] text-[color:var(--text-primary)]"
+            className="mt-6 w-full border-t border-[color:var(--line)] pt-4 text-center text-xs tracking-[0.12em] text-[color:var(--text-primary)]"
           >
             APPLY
           </button>

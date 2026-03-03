@@ -26,27 +26,29 @@ export default function ExhibitionsPage() {
         description="Каждая выставка выстроена как небольшая пространственная история: один сильный кадр, короткий текст и ритм комнат."
       />
 
-      <div className="space-y-10">
+      <div className="space-y-12">
         {groups.map((group) => (
           <section key={group.key} className="border-t border-[color:var(--line)] pt-8">
-            <h2 className="mb-5 font-serif text-3xl text-[color:var(--text-primary)]">{group.title}</h2>
-            <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+            <h2 className="mb-6 font-serif text-3xl text-[color:var(--text-primary)]">{group.title}</h2>
+            <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
               {group.items.map((exhibition) => (
                 <Link
                   key={exhibition.slug}
                   href={`/exhibitions/${exhibition.slug}`}
-                  className="group overflow-hidden rounded-[24px] border border-[color:var(--line)] bg-[color:var(--surface-strong)]"
+                  className="group block"
                 >
-                  <Image
-                    src={exhibition.heroImage}
-                    alt={exhibition.title}
-                    width={1000}
-                    height={760}
-                    sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
-                    className="h-auto w-full object-cover transition group-hover:opacity-90"
-                  />
-                  <div className="p-4">
-                    <p className="text-xs tracking-[0.12em] text-[color:var(--text-muted)]">
+                  <div className="overflow-hidden">
+                    <Image
+                      src={exhibition.heroImage}
+                      alt={exhibition.title}
+                      width={1000}
+                      height={760}
+                      sizes="(max-width: 767px) 100vw, (max-width: 1199px) 50vw, 33vw"
+                      className="h-auto w-full object-cover transition-all duration-700 group-hover:scale-[1.01] group-hover:brightness-[0.92]"
+                    />
+                  </div>
+                  <div className="mt-3 border-b border-[color:var(--line)] pb-4">
+                    <p className="text-xs tracking-[0.14em] text-[color:var(--text-muted)]">
                       {exhibition.city} · {exhibition.dateRange}
                     </p>
                     <p className="mt-1 font-serif text-2xl text-[color:var(--text-primary)]">

@@ -16,25 +16,29 @@ export default function ContactsPage() {
         description="Для запросов о работах, выставках и частных просмотрах используйте форму или прямые каналы связи."
       />
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        <section className="space-y-4 lg:col-span-5">
-          <div className="rounded-[24px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-5">
-            <p className="text-xs tracking-[0.12em] text-[color:var(--text-muted)]">EMAIL</p>
-            <a href="mailto:hello@dreamagic.art" className="mt-2 block text-[15px] text-[color:var(--text-primary)]">
-              hello@dreamagic.art
-            </a>
-          </div>
-          <div className="rounded-[24px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-5">
-            <p className="text-xs tracking-[0.12em] text-[color:var(--text-muted)]">SOCIAL</p>
-            <div className="mt-2 flex flex-wrap gap-2">
-              <span className="cursor-default rounded-full border border-[color:var(--line)] px-3 py-1 text-xs text-[color:var(--text-muted)]" aria-label="Instagram (coming soon)">
-                INSTAGRAM
-              </span>
-              <span className="cursor-default rounded-full border border-[color:var(--line)] px-3 py-1 text-xs text-[color:var(--text-muted)]" aria-label="Telegram (coming soon)">
-                TELEGRAM
-              </span>
+      <div className="grid grid-cols-1 gap-12 lg:grid-cols-12">
+        <section className="lg:col-span-5">
+          <dl className="grid gap-0 text-sm">
+            <div className="border-b border-[color:var(--line)] py-4">
+              <dt className="text-xs tracking-[0.14em] text-[color:var(--text-muted)]">EMAIL</dt>
+              <dd className="mt-1">
+                <a href="mailto:hello@dreamagic.art" className="text-[15px] text-[color:var(--text-primary)] underline decoration-[color:var(--line)] underline-offset-4 transition-colors hover:decoration-[color:var(--accent-clay)]">
+                  hello@dreamagic.art
+                </a>
+              </dd>
             </div>
-          </div>
+            <div className="py-4">
+              <dt className="text-xs tracking-[0.14em] text-[color:var(--text-muted)]">SOCIAL</dt>
+              <dd className="mt-2 flex flex-wrap gap-3">
+                <span className="cursor-default text-[13px] text-[color:var(--text-muted)]" aria-label="Instagram (coming soon)">
+                  Instagram
+                </span>
+                <span className="cursor-default text-[13px] text-[color:var(--text-muted)]" aria-label="Telegram (coming soon)">
+                  Telegram
+                </span>
+              </dd>
+            </div>
+          </dl>
         </section>
         <section className="lg:col-span-7">
           <LeadForm endpoint="/api/contact" title="Contact form" submitLabel="SEND MESSAGE" />

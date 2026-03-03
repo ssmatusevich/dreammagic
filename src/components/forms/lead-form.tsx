@@ -52,12 +52,9 @@ export function LeadForm({
   };
 
   return (
-    <form
-      onSubmit={onSubmit}
-      className="rounded-[28px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-6"
-    >
-      <h2 className="mb-4 font-serif text-3xl text-[color:var(--text-primary)]">{title}</h2>
-      <div className="grid gap-3">
+    <form onSubmit={onSubmit}>
+      <h2 className="mb-6 font-serif text-3xl text-[color:var(--text-primary)]">{title}</h2>
+      <div className="grid gap-4">
         <Field label="Name" name="name" required />
         <Field label="Email" name="email" type="email" required />
         {includePreferredDate ? <Field label="Preferred date / time" name="preferredDate" required /> : null}
@@ -68,7 +65,7 @@ export function LeadForm({
       <button
         type="submit"
         disabled={status === "loading"}
-        className="mt-5 inline-flex items-center justify-center rounded-full border border-[color:var(--line)] px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)] disabled:opacity-60 disabled:hover:bg-transparent disabled:hover:text-[color:var(--text-primary)]"
+        className="mt-6 rounded-full border border-[color:var(--line)] px-5 py-2.5 text-xs tracking-[0.12em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)] disabled:opacity-60"
       >
         {status === "loading" ? "SENDING..." : submitLabel}
       </button>

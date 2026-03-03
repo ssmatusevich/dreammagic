@@ -30,8 +30,8 @@ export default function ArtistPage() {
         dangerouslySetInnerHTML={{ __html: JSON.stringify(personSchema) }}
       />
 
-      <div className="grid grid-cols-1 gap-8 lg:grid-cols-12">
-        <div className="overflow-hidden rounded-[28px] border border-[color:var(--line)] lg:col-span-5">
+      <div className="grid grid-cols-1 gap-10 lg:grid-cols-12">
+        <div className="overflow-hidden lg:col-span-5">
           <Image
             src={artworks[1].imageUrl}
             alt="Katerina Matusevich portrait placeholder"
@@ -59,31 +59,28 @@ export default function ArtistPage() {
         </div>
       </div>
 
-      <section className="mt-10 border-t border-[color:var(--line)] pt-8">
+      <section className="mt-16 border-t border-[color:var(--line)] pt-12">
         <h2 className="font-serif text-4xl text-[color:var(--text-primary)]">Selected works</h2>
-        <div className="mt-6 grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
+        <div className="mt-8 grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
           {selected.map((item) => (
             <ArtworkCard key={item.slug} artwork={item} />
           ))}
         </div>
       </section>
 
-      <section className="mt-10 border-t border-[color:var(--line)] pt-8">
+      <section className="mt-16 border-t border-[color:var(--line)] pt-12">
         <h2 className="font-serif text-4xl text-[color:var(--text-primary)]">Selected exhibitions</h2>
-        <div className="mt-5 grid gap-5 md:grid-cols-2">
+        <div className="mt-6 grid gap-0 md:grid-cols-2 md:gap-12">
           {selectedExhibitions.map((item) => (
-            <div
-              key={item.slug}
-              className="rounded-[24px] border border-[color:var(--line)] bg-[color:var(--surface-strong)] p-5"
-            >
-              <p className="text-xs tracking-[0.12em] text-[color:var(--text-muted)]">
+            <div key={item.slug} className="border-b border-[color:var(--line)] py-6 md:border-0">
+              <p className="text-xs tracking-[0.14em] text-[color:var(--text-muted)]">
                 {item.city} · {item.dateRange}
               </p>
               <h3 className="mt-1 font-serif text-2xl text-[color:var(--text-primary)]">{item.title}</h3>
               <p className="mt-2 text-sm text-[color:var(--text-secondary)]">{item.summary}</p>
               <Link
                 href={`/exhibitions/${item.slug}`}
-                className="mt-4 inline-block rounded-full border border-[color:var(--line)] px-4 py-2 text-xs tracking-[0.12em] text-[color:var(--text-primary)]"
+                className="mt-4 inline-block text-xs tracking-[0.12em] text-[color:var(--text-primary)] underline decoration-[color:var(--line)] underline-offset-4 transition-colors duration-200 hover:decoration-[color:var(--accent-clay)]"
               >
                 VIEW EXHIBITION
               </Link>
