@@ -8,13 +8,18 @@ import { motion, AnimatePresence } from "framer-motion";
 import { navItems, siteMeta } from "@/data/content";
 import { cn } from "@/lib/utils";
 
+const bgSolid =
+  "border-b border-[color:var(--line)] bg-[color:var(--surface)]/[0.96] backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04)]";
+const bgTransparent = "border-b border-transparent bg-transparent";
+
 export function SiteHeader() {
   const pathname = usePathname();
+  const isHome = pathname === "/home" || pathname === "/";
   const [scrolled, setScrolled] = useState(false);
   const [mobileOpen, setMobileOpen] = useState(false);
 
   useEffect(() => {
-    const onScroll = () => setScrolled(window.scrollY > 28);
+    const onScroll = () => setScrolled(window.scrollY > 60);
     onScroll();
     window.addEventListener("scroll", onScroll, { passive: true });
     return () => window.removeEventListener("scroll", onScroll);
@@ -31,21 +36,23 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", onKey);
   }, [mobileOpen, closeMobile]);
 
+  const showSolidBg = scrolled || !isHome;
+
   return (
     <header
       className={cn(
         "fixed top-0 z-50 w-full transition-all duration-500 ease-[cubic-bezier(0.25,0.1,0.25,1)]",
-        scrolled
-          ? "border-b border-[color:var(--line)] bg-[color:var(--surface)]/[0.92] backdrop-blur-md shadow-[0_1px_2px_rgba(0,0,0,0.04)]"
-          : "border-b border-transparent bg-transparent",
+        showSolidBg ? bgSolid : bgTransparent,
       )}
     >
       <div className="mx-auto flex h-[72px] w-full max-w-[1320px] items-center justify-between px-4 md:px-8 xl:px-[60px]">
         <Link
           href="/home"
           className={cn(
-            "font-serif tracking-[0.08em] text-[color:var(--text-primary)] transition-all duration-500",
-            scrolled ? "text-base" : "text-lg",
+            "font-serif tracking-[0.08em] transition-all duration-500",
+            showSolidBg
+              ? "text-base text-[color:var(--text-primary)]"
+              : "text-lg text-[color:var(--surface)]",
           )}
         >
           {siteMeta.title}
@@ -58,13 +65,15 @@ export function SiteHeader() {
               href={item.href}
               className={cn(
                 "relative text-xs tracking-[0.14em] transition-colors duration-300",
-                pathname?.startsWith(item.href)
-                  ? "text-[color:var(--text-primary)]"
-                  : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]",
+                !showSolidBg
+                  ? "text-[color:var(--surface)]/80 hover:text-[color:var(--surface)]"
+                  : pathname?.startsWith(item.href)
+                    ? "text-[color:var(--text-primary)]"
+                    : "text-[color:var(--text-secondary)] hover:text-[color:var(--text-primary)]",
               )}
             >
               {item.label}
-              {pathname?.startsWith(item.href) ? (
+              {showSolidBg && pathname?.startsWith(item.href) ? (
                 <motion.span
                   layoutId="nav-indicator"
                   className="absolute -bottom-1 left-0 h-[1px] w-full bg-[color:var(--text-primary)]"
@@ -75,7 +84,12 @@ export function SiteHeader() {
           ))}
           <Link
             href="/contacts"
-            className="rounded-full border border-[color:var(--line)] px-4 py-2 text-xs tracking-[0.14em] text-[color:var(--text-primary)] transition-all duration-300 hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)]"
+            className={cn(
+              "rounded-full border px-4 py-2 text-xs tracking-[0.14em] transition-all duration-300",
+              showSolidBg
+                ? "border-[color:var(--line)] text-[color:var(--text-primary)] hover:bg-[color:var(--text-primary)] hover:text-[color:var(--surface)]"
+                : "border-[color:var(--surface)]/40 text-[color:var(--surface)] hover:border-[color:var(--surface)]/70 hover:bg-[color:var(--surface)]/10",
+            )}
           >
             CONTACT
           </Link>
@@ -84,7 +98,12 @@ export function SiteHeader() {
         <button
           type="button"
           onClick={() => setMobileOpen((v) => !v)}
-          className="rounded-full border border-[color:var(--line)] px-3 py-2 text-xs tracking-[0.14em] text-[color:var(--text-primary)] transition-colors duration-300 hover:bg-[color:var(--surface-strong)] lg:hidden"
+          className={cn(
+            "rounded-full border px-3 py-2 text-xs tracking-[0.14em] transition-colors duration-300 lg:hidden",
+            showSolidBg
+              ? "border-[color:var(--line)] text-[color:var(--text-primary)] hover:bg-[color:var(--surface-strong)]"
+              : "border-[color:var(--surface)]/40 text-[color:var(--surface)] hover:bg-[color:var(--surface)]/10",
+          )}
           aria-expanded={mobileOpen}
           aria-controls="mobile-nav"
           aria-label={mobileOpen ? "Close menu" : "Open menu"}
